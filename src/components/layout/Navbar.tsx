@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { createPortal } from "react-dom"
 import { AnimatePresence, motion, useScroll } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import { Button } from "../ui/Button"
@@ -115,7 +114,7 @@ const Navbar = () => {
       </motion.header>
 
       <AnimatePresence>
-        {isMobileOpen && createPortal(
+        {isMobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -131,34 +130,33 @@ const Navbar = () => {
               className="absolute top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 overflow-y-auto"
               onClick={(event) => event.stopPropagation()}
             >
-            <div className="flex items-center justify-between mb-8">
-              <Logo />
-              <button
-                type="button"
-                onClick={toggleMobileMenu}
-                aria-label="Close menu"
-                className="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100 text-[#1a1a2e]"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <nav className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
+              <div className="flex items-center justify-between mb-8">
+                <Logo />
+                <button
+                  type="button"
                   onClick={toggleMobileMenu}
-                  className="block rounded-[18px] px-4 py-3 text-lg font-semibold text-[#1a1a2e] transition-colors hover:bg-[#f8e6cd]"
+                  aria-label="Close menu"
+                  className="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100 text-[#1a1a2e]"
                 >
-                  {link.name}
-                </a>
-              ))}
-            </nav>
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <nav className="flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={toggleMobileMenu}
+                    className="block rounded-[18px] px-4 py-3 text-lg font-semibold text-[#1a1a2e] transition-colors hover:bg-[#f8e6cd]"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </nav>
+            </motion.div>
           </motion.div>
-        </motion.div>,
-        document.body
-      )}
+        )}
       </AnimatePresence>
     </>
   )
