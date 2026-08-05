@@ -1,4 +1,5 @@
-import { useState, useEffect, createPortal } from "react"
+import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 import { AnimatePresence, motion, useScroll } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import { Button } from "../ui/Button"
