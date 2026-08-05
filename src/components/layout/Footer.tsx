@@ -1,9 +1,10 @@
 import { Mail, Phone, MapPin, ArrowRight, Shield, Heart, Star } from "lucide-react"
 import { motion } from "framer-motion"
+import type { Variants } from "framer-motion"
 import Logo from "./Logo"
 
 const Footer = () => {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -11,7 +12,7 @@ const Footer = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,

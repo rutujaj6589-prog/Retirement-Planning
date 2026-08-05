@@ -98,8 +98,8 @@ const Hero = ({ isModalOpen = false, setIsModalOpen = () => {} }: HeroProps) => 
                 </motion.div>
               </div>
 
-              {/* RIGHT — content, plain bg */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-12 lg:px-16 lg:py-20 z-10">
+              {/* RIGHT — content, white card background */}
+              <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-12 lg:px-16 lg:py-20 z-10 bg-white">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

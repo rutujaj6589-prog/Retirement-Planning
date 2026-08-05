@@ -2,17 +2,17 @@
 
 @theme {
   /* ── Primary: Deep Charcoal (replaces forest green) ── */
-  --color-primary: #1a1a2e;
+  --color-primary: #1c2534;
   /* ── Secondary: Rich Amber Gold ── */
-  --color-secondary: #e8a045;
+  --color-secondary: #e9ab56;
   /* ── Accent: Warm Ivory / Cream ── */
-  --color-accent: #fdf6ec;
+  --color-accent: #fff7ec;
   /* ── Section Backgrounds ── */
-  --bg-section-primary: #ffffff;
-  --bg-section-alternate: #ffffff;
-  --color-bg-primary: #ffffff;
-  --color-bg-section: #ffffff;
-  --color-bg-dark: #1a1a2e;
+  --bg-section-primary: #fffdf9;
+  --bg-section-alternate: #fff9f3;
+  --color-bg-primary: #fffdfb;
+  --color-bg-section: #fff9f4;
+  --color-bg-dark: #313847;
   /* ── Text ── */
   --color-text-primary: #1a1a2e;
   --color-text-muted: #6b5c4e;
