@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { CheckCircle2, Phone } from "lucide-react"
 import { Button } from "../ui/Button"
+import contactImage from "../../assets/contact.png"
 
 interface FinalCTAProps {
   onOpenModal?: () => void;
@@ -33,7 +34,7 @@ const FinalCTA = ({ onOpenModal }: FinalCTAProps) => {
             style={{ boxShadow: '0 30px 60px rgba(212,118,42,0.15)' }}
           >
             <img
-              src="/src/assets/contact.png"
+              src={contactImage}
               alt="Retirement Planning Consultation"
               className="w-full h-full object-cover object-center"
             />

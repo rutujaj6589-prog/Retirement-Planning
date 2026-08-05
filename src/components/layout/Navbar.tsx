@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react"
-import { motion, useScroll } from "framer-motion"
+import { useState, useEffect, createPortal } from "react"
+import { AnimatePresence, motion, useScroll } from "framer-motion"
+import { Menu, X } from "lucide-react"
 import { Button } from "../ui/Button"
 import Logo from "./Logo"
 
@@ -18,6 +19,9 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [activeLink, setActiveLink] = useState<string>("#home")
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+
+  const toggleMobileMenu = () => setIsMobileOpen((open) => !open)
 
   useEffect(() => {
     const onScroll = () => {
@@ -40,61 +44,122 @@ const Navbar = () => {
   }, [scrollY])
 
   return (
-    <motion.header
-      initial={false}
-      animate="visible"
-      variants={{ visible: { y: 0, opacity: 1 } }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/96 backdrop-blur-xl shadow-[0_8px_32px_-8px_rgba(26,26,46,0.14)] py-4"
-          : "bg-transparent py-6"
-      }`}
-    >
-      <div className="container px-4 flex justify-between items-center">
-        <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="cursor-pointer">
-          <Logo />
-        </motion.div>
+    <>
+      <motion.header
+        initial={false}
+        animate="visible"
+        variants={{ visible: { y: 0, opacity: 1 } }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/96 backdrop-blur-xl shadow-[0_8px_32px_-8px_rgba(26,26,46,0.14)] py-4"
+            : "bg-transparent py-6"
+        }`}
+      >
+        <div className="container px-4 flex justify-between items-center">
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="cursor-pointer">
+            <Logo />
+          </motion.div>
 
-        <nav className="hidden lg:flex items-center gap-2 relative">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onMouseEnter={() => setHoveredLink(link.name)}
-              onMouseLeave={() => setHoveredLink(null)}
-              className={`relative px-4 py-2 font-bold text-[15px] transition-all duration-300 rounded-full ${
-                activeLink === link.href
-                  ? "bg-[#d4762a]/10 text-[#d4762a]"
-                  : "text-[#1a1a2e] hover:text-[#d4762a]"
-              }`}
+          <nav className="hidden lg:flex items-center gap-2 relative">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onMouseEnter={() => setHoveredLink(link.name)}
+                onMouseLeave={() => setHoveredLink(null)}
+                className={`relative px-4 py-2 font-bold text-[15px] transition-all duration-300 rounded-full ${
+                  activeLink === link.href
+                    ? "bg-[#d4762a]/10 text-[#d4762a]"
+                    : "text-[#1a1a2e] hover:text-[#d4762a]"
+                }`}
+              >
+                <span className="relative z-10">{link.name}</span>
+                {hoveredLink === link.name && (
+                  <motion.div
+                    layoutId="navbar-hover"
+                    className="absolute inset-0 bg-[#e8a045]/10 rounded-full -z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                  />
+                )}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleMobileMenu}
+              className="lg:hidden inline-flex items-center justify-center p-3 rounded-[16px] border border-gray-200 bg-white/90 shadow-sm"
+              aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             >
-              <span className="relative z-10">{link.name}</span>
-              {hoveredLink === link.name && (
-                <motion.div
-                  layoutId="navbar-hover"
-                  className="absolute inset-0 bg-[#e8a045]/10 rounded-full -z-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                />
-              )}
-            </a>
-          ))}
-        </nav>
+              {isMobileOpen ? <X className="w-6 h-6 text-[#1a1a2e]" /> : <Menu className="w-6 h-6 text-[#1a1a2e]" />}
+            </motion.button>
 
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button
-            className="text-white rounded-[16px] px-8 py-2.5 font-bold shadow-lg transition-all overflow-hidden group relative border-none"
-            style={{ background: "linear-gradient(135deg, #d4762a, #e8a045)" }}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                className="hidden lg:inline-flex text-white rounded-[16px] px-8 py-2.5 font-bold shadow-lg transition-all overflow-hidden group relative border-none"
+                style={{ background: "linear-gradient(135deg, #d4762a, #e8a045)" }}
+              >
+                <span className="relative z-10">Talk to Expert</span>
+                <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-white/20 skew-x-12 group-hover:animate-[shine_1s_ease-in-out]" />
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {isMobileOpen && createPortal(
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm lg:hidden"
+            onClick={toggleMobileMenu}
           >
-            <span className="relative z-10">Talk to Expert</span>
-            <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-white/20 skew-x-12 group-hover:animate-[shine_1s_ease-in-out]" />
-          </Button>
-        </motion.div>
-      </div>
-    </motion.header>
+            <motion.div
+              initial={{ x: 300 }}
+              animate={{ x: 0 }}
+              exit={{ x: 300 }}
+              transition={{ type: "spring", stiffness: 280, damping: 24 }}
+              className="absolute top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 overflow-y-auto"
+              onClick={(event) => event.stopPropagation()}
+            >
+            <div className="flex items-center justify-between mb-8">
+              <Logo />
+              <button
+                type="button"
+                onClick={toggleMobileMenu}
+                aria-label="Close menu"
+                className="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100 text-[#1a1a2e]"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={toggleMobileMenu}
+                  className="block rounded-[18px] px-4 py-3 text-lg font-semibold text-[#1a1a2e] transition-colors hover:bg-[#f8e6cd]"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+          </motion.div>
+        </motion.div>,
+        document.body
+      )}
+      </AnimatePresence>
+    </>
   )
 }
 
